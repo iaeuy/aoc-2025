@@ -12,9 +12,9 @@ def sum_adj(start, end):
 	"""Return the sum start + (start + 1) + ... + end"""
 	return (start + end) * (end - start + 1) // 2
 
-def sum_invalid_fixed_digits(start, end, digits):
+def sum_2_invalid_fixed_digits(start, end, digits):
 	"""Given start and end that are both digits long, return the sum of
-	all invalid numbers between start and end"""
+	all 2-invalid numbers between start and end"""
 	if digits % 2 == 1:
 		return 0
 
@@ -41,8 +41,8 @@ def sum_invalid_fixed_digits(start, end, digits):
 
 	return sum_adj(invalid_start, invalid_end) * (digit_shift + 1)
 
-def sum_invalid(start, end):
-	"""Return the sum of invalid numbers between start and end"""
+def sum_2_invalid(start, end):
+	"""Return the sum of 2-invalid numbers between start and end"""
 	result = 0
 	curr_start = start
 	while curr_start <= end:
@@ -51,9 +51,28 @@ def sum_invalid(start, end):
 			curr_end = end
 		else:
 			curr_end = 10 ** curr_digits - 1
-		result += sum_invalid_fixed_digits(curr_start, curr_end, curr_digits)
+		result += sum_2_invalid_fixed_digits(curr_start, curr_end, curr_digits)
 		curr_start = curr_end + 1
 	return result
 
 def part_1():
+	return sum([sum_2_invalid(start, end) for (start, end) in ranges])
+print(part_1())
+
+def is_k_invalid(n, k):
+	"""Return whether n is a number concatenated k times"""
+	digits = len(str(n))
+	if digits % k != 0:
+		return False
+	return n == int(str(n)[:(digits // k)] * k)
+
+def is_invalid(n):
+	digits = len(str(n))
+	return any([is_k_invalid(n, k) for k in range(2, digits + 1)])
+
+def sum_invalid(start, end):
+	return sum([n for n in range(start, end + 1) if is_invalid(n)])
+
+def part_2():
 	return sum([sum_invalid(start, end) for (start, end) in ranges])
+print(part_2())
