@@ -25,3 +25,24 @@ print(part_1_naive(banks))
 def part_1_linear(banks):
 	return sum(map(bank_joltage_linear, banks))
 print(part_1_linear(banks))
+
+def part_2_joltage_recursive(bank, k, memo):
+	bank = tuple(bank)
+	if (bank, k) in memo:
+		return memo[(bank, k)]
+	elif k == 1:
+		result = max(bank)
+	elif len(bank) == k:
+		result = int("".join(map(str, bank)))
+	else:
+		result = max(
+			part_2_joltage_recursive(bank[1:], k, memo),
+			int(str(bank[0]) + str(part_2_joltage_recursive(bank[1:], k - 1, memo)))
+		)
+	memo[(bank, k)] = result
+	return result
+
+def part_2_recursive(banks):
+	memo = {}
+	return sum(map(lambda bank: part_2_joltage_recursive(bank, 12, memo), banks))
+print(part_2_recursive(banks))

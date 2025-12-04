@@ -24,5 +24,14 @@ class TestDay3(unittest.TestCase):
 		self.assertEqual(day3.bank_joltage_linear(self.bank3), 78)
 		self.assertEqual(day3.bank_joltage_linear(self.bank4), 92)
 
+	def test_part_2_joltage_recursive(self):
+		self.assertEqual(day3.part_2_joltage_recursive(self.bank1, 12, {}), 987654321111)
+		self.assertEqual(day3.part_2_joltage_recursive(self.bank2, 12, {}), 811111111119)
+		self.assertEqual(day3.part_2_joltage_recursive(self.bank3, 12, {}), 434234234278)
+		self.assertEqual(day3.part_2_joltage_recursive(self.bank4, 12, {}), 888911112111)
+
+	def test_part_2_recursive(self):
+		self.assertEqual(day3.part_2_recursive(self.banks), 3121910778619)
+
 if __name__ == '__main__':
     unittest.main()
